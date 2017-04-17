@@ -6,9 +6,17 @@
 # Purpose:  15 slide puzzle solver, using 6 different search methods
 #           Reports statistics when a solution is found
 # Usage:    Program accepts command line arguments in format:
-#               "[initialstate]" [searchmethod] [options]
+#           "[initialstate]" [searchmethod] [options]
+#               - initialstate must contain all characters:
+#                   "123456789ABCDEF " in any order
+#               - searchmethod can be any of the following:
+#                   BFS, DFS, DLS, ID, GBFS, AStar
+#               - options can be any of the following:
+#                   int value for DLS
+#                   'h1' or 'h2' for GBFS or AStar
 # Output:   Prints statistics when solution found in format:
 #               [depth], [numCreated], [numExpanded], [maxFringe]
+#           Prints "-1, 0, 0, 0" if solution cannot be found
 """
 
 import sys
@@ -28,13 +36,9 @@ class Statistics:
     nExpanded = 0
     maxFringe = 0
     
-    def __str__(self):
-        return '%d, %d, %d, %d' % (self.depth, 
-                                   self.nCreated, 
-                                   self.nExpanded, 
-                                   self.maxFringe)
-        
-# Priority queue for GBFS and AStar
+    def __str__(self): return '%d, %d, %d, %d' % (self.depth, self.nCreated, self.nExpanded, self.maxFringe)    
+
+# Priority queue implementation for GBFS and AStar
 class pQueue:
     nodeQueue = []
     weightQueue = []
@@ -62,7 +66,8 @@ class pQueue:
                 return
         self.weightQueue.append(weight)
         self.nodeQueue.append(node)
-# Puzzle board class
+
+#Puzzle board class
 class Puzzle:
 
     state = []
@@ -136,7 +141,8 @@ class Puzzle:
             hDistance = abs(solIndex%4 - tileIndex%4)
             mSum += vDistance + hDistance
         return mSum
-                
+
+''' SEARCH ALGORITHMS '''
 def solveBFS(start):
     #Nodes to be expanded are queued FIFO
     stats = Statistics()
@@ -312,6 +318,7 @@ if __name__ == '__main__':
     heuristic = None
     stats = None
     
+    # Accept console inputs and check for invalid inputs
     if len(sys.argv) in range(3, 5):
         start = Puzzle(sys.argv[1])
         solveWith = sys.argv[2]
@@ -333,7 +340,9 @@ if __name__ == '__main__':
         if heuristic != 'h1' and heuristic != 'h2':
             print 'Invalid heuristic, GBFS and AStar only accept heuristics h1 and h2'
             sys.exit(-1)
-
+    
+    
+    # Select search method
     if solveWith == 'BFS':
         stats = solveBFS(start)
         
