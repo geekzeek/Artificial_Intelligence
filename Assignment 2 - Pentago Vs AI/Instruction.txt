@@ -1,0 +1,30 @@
+Program Instructions:
+
+Starting a Game: 
+	- Run "main.py"
+	- Select a color to play as ('w' or 'b')
+	- First turn is selected randomly
+	
+Inputting Moves:
+	- Move format
+		[PlaceBlock]/[PlaceIndex] [RotateBlock][Direction]
+		eg. "1/1 1r"
+		
+	- PlaceBlock: 3x3 Block to place game piece in layout:
+		[1][2]
+		[3][4]
+
+	- PlaceIndex - Index within block to place element in in layout:
+		[1][2][3]
+		[4][5][6]
+		[7][8][9]
+
+	- RotateBlock - 3x3 Block to rotate after placing element
+
+	- Direction - Direction to rotate block ('r', 'R', 'l', or 'L')
+
+Adjusting AI settings:
+	- Search depth can be adjusted by modifying the maxDepth variable on line 15 of AI.py
+	- Search Method can be adjusted by modifying the searchMethod variable on line 18 of AI.py ('AlphaBeta' or 'MiniMax')
+
+	
